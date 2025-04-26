@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Gerador de QR Code PIX instantâneo. Crie seus códigos PIX facilmente para pagamentos rápidos e seguros.">
     <meta name="keywords" content="PIX, QR Code, Gerador PIX, Pagamento instantâneo, Banco Central">
-    <meta property="og:title" content="Gerador de PIX | Crie QR Codes PIX Instantaneamente">
+    <meta property="og:title" content="Gerador de PIX | Utilitários by Rede Bots">
     <meta property="og:description" content="Gere seus códigos PIX facilmente para pagamentos rápidos e seguros.">
     <meta property="og:image" content="https://imgur.com/56KWaFN.png">
     <meta property="og:url" content="https://ferramentas-uteis.pages.dev/pix.html">
     <link rel="icon" href="https://imgur.com/7ayrElN.png" type="image/png">
-    <title>Gerador de PIX | Ferramentas Úteis</title>
+    <title>Gerador de PIX | Utilitários by Rede Bots</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <style>
         :root {
             --primary: #4F46E5;
@@ -25,6 +26,7 @@
             --text-secondary: #6B7280;
             --border: #E5E7EB;
             --shadow: rgba(0, 0, 0, 0.05);
+            --navbar-bg: rgba(255, 255, 255, 0.95);
             --modal-bg: rgba(0, 0, 0, 0.6);
             --input-bg: #FFFFFF;
         }
@@ -38,6 +40,7 @@
             --text-secondary: #9CA3AF;
             --border: #374151;
             --shadow: rgba(0, 0, 0, 0.2);
+            --navbar-bg: rgba(31, 41, 55, 0.95);
             --modal-bg: rgba(0, 0, 0, 0.7);
             --input-bg: #374151;
         }
@@ -55,27 +58,52 @@
             min-height: 100vh;
             color: var(--text);
             line-height: 1.5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
         }
 
-        .app-container {
-            max-width: 480px;
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 1.5rem;
-        }
-
-        .header {
+            background: var(--navbar-bg);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 2px 4px var(--shadow);
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            z-index: 1000;
         }
 
-        .logo {
-            height: 32px;
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .navbar-brand i {
+            color: var(--primary);
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .navbar-links a {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .navbar-links a:hover {
+            color: var(--primary);
         }
 
         .theme-toggle {
@@ -92,40 +120,46 @@
             color: var(--primary);
         }
 
-        .back-link {
-            display: inline-block;
-            font-size: 0.875rem;
+        .hero {
+            max-width: 800px;
+            margin: 6rem auto 2rem;
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        .hero i {
+            font-size: 3rem;
             color: var(--primary);
-            text-decoration: none;
             margin-bottom: 1rem;
         }
 
-        .back-link:hover {
-            text-decoration: underline;
+        .hero h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
         }
 
-        .card {
+        .hero p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .feature-section {
+            max-width: 600px;
+            margin: 0 auto 4rem;
+            padding: 0 1rem;
+        }
+
+        .feature-card {
             background: var(--card-bg);
             border-radius: 12px;
             box-shadow: 0 4px 12px var(--shadow);
-            padding: 1.5rem;
+            padding: 2rem;
+            transition: transform 0.3s ease;
         }
 
-        .card-header {
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .card-header h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .card-header p {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            margin-top: 0.25rem;
+        .feature-card:hover {
+            transform: translateY(-5px);
         }
 
         .form-group {
@@ -336,10 +370,16 @@
         }
 
         .footer {
+            background: var(--card-bg);
+            padding: 2rem 1rem;
             text-align: center;
-            margin-top: 2rem;
-            font-size: 0.75rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer p {
+            font-size: 0.875rem;
             color: var(--text-secondary);
+            margin-bottom: 1rem;
         }
 
         .footer a {
@@ -351,77 +391,122 @@
             text-decoration: underline;
         }
 
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .navbar-links {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .hero p {
+                font-size: 0.875rem;
+            }
+        }
+
         @media (max-width: 480px) {
-            .app-container {
-                padding: 1rem;
+            .navbar-brand {
+                font-size: 1rem;
             }
 
-            .card {
-                padding: 1rem;
+            .navbar-links a {
+                font-size: 0.75rem;
             }
 
-            .modal-content {
-                width: 95%;
+            .hero {
+                margin: 5rem auto 2rem;
+            }
+
+            .feature-card {
+                padding: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <div class="header">
-            <img src="https://imgur.com/ntrdoa5.png" alt="Ferramentas Úteis" class="logo">
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            <i class="fas fa-tools"></i> Utilitários by Rede Bots
+        </a>
+        <div class="navbar-links">
+            <a href="index.html">Home</a>
+            <a href="pix.html">Gerador de PIX</a>
             <button class="theme-toggle" id="themeToggle">
                 <i class="fas fa-moon"></i>
             </button>
         </div>
-        <a href="index.html" class="back-link">← Voltar para Ferramentas Úteis</a>
-        <div class="card">
-            <div class="card-header">
-                <h1>Gerador de PIX</h1>
-                <p>Crie QR Codes PIX instantaneamente</p>
+    </nav>
+
+    <section class="hero" data-aos="fade-up">
+        <i class="fas fa-qrcode"></i>
+        <h1>Gerador de QR Code PIX</h1>
+        <p>Crie QR Codes PIX instantaneamente para pagamentos rápidos e seguros.</p>
+    </section>
+
+    <section class="feature-section" data-aos="fade-up" data-aos-delay="100">
+        <div class="feature-card">
+            <div class="form-group">
+                <label for="tipo-chave">Tipo de chave</label>
+                <select id="tipo-chave" class="form-control">
+                    <option value="email">E-mail</option>
+                    <option value="cpf">CPF</option>
+                    <option value="cnpj">CNPJ</option>
+                    <option value="telefone">Telefone</option>
+                    <option value="aleatoria">Chave aleatória</option>
+                </select>
             </div>
-            <div class="card-body">
-                <div class="form-group">
-                    <label for="tipo-chave">Tipo de chave</label>
-                    <select id="tipo-chave" class="form-control">
-                        <option value="email">E-mail</option>
-                        <option value="cpf">CPF</option>
-                        <option value="cnpj">CNPJ</option>
-                        <option value="telefone">Telefone</option>
-                        <option value="aleatoria">Chave aleatória</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="chave-pix">Chave PIX</label>
-                    <input type="text" id="chave-pix" class="form-control" placeholder="Digite sua chave PIX">
-                </div>
-                
-                <div class="form-group">
-                    <label>Valor (R$)</label>
-                    <div class="input-group">
-                        <input type="number" id="valor-inteiro" class="form-control" placeholder="0">
-                        <span>,</span>
-                        <input type="number" id="valor-centavos" class="form-control" placeholder="00" min="0" max="99">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="txid">Identificador (opcional)</label>
-                    <input type="text" id="txid" class="form-control" placeholder="Máx. 10 caracteres" maxlength="10">
-                    <small style="display: block; margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-secondary);">
-                        Apenas letras e números
-                    </small>
-                </div>
-                
-                <button id="gerar-btn" class="btn">Gerar QR Code PIX</button>
-                <div id="error-message" class="error-message"></div>
+            <div class="form-group">
+                <label for="chave-pix">Chave PIX</label>
+                <input type="text" id="chave-pix" class="form-control" placeholder="Digite sua chave PIX">
             </div>
+            <div class="form-group">
+                <label>Valor (R$)</label>
+                <div class="input-group">
+                    <input type="number" id="valor-inteiro" class="form-control" placeholder="0">
+                    <span>,</span>
+                    <input type="number" id="valor-centavos" class="form-control" placeholder="00" min="0" max="99">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="txid">Identificador (opcional)</label>
+                <input type="text" id="txid" class="form-control" placeholder="Máx. 10 caracteres" maxlength="10">
+                <small style="display: block; margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-secondary);">
+                    Apenas letras e números
+                </small>
+            </div>
+            <button id="gerar-btn" class="btn">Gerar QR Code PIX</button>
+            <div id="error-message" class="error-message"></div>
         </div>
-        <div class="footer">
-            <p>Ferramentas Úteis by Rede Gamer© 2025 | <a href="https://ferramentas-uteis.pages.dev/">ferramentas-uteis.pages.dev</a></p>
+    </section>
+
+    <footer class="footer">
+        <p>Utilitários by Rede Bots © 2025 | <a href="https://ferramentas-uteis.pages.dev/">ferramentas-uteis.pages.dev</a></p>
+        <div class="social-links">
+            <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
         </div>
-    </div>
+    </footer>
 
     <!-- Modal -->
     <div id="pixModal" class="modal">
@@ -446,6 +531,18 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="utils/pix_pay.js"></script>
+    <script>
+        console.log("Script de pix.html carregado");
+
+        // Inicializar AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+        console.log("AOS inicializado");
+    </script>
 </body>
 </html>
