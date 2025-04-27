@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Conversor de moedas em tempo real. Converta BRL, USD, EUR e mais com taxas atualizadas.">
+    <meta name="keywords" content="Conversor de moedas, Taxas de câmbio, Finanças, Utilitários">
+    <meta property="og:title" content="Conversor de Moedas | Utilitários by Rede Bots">
+    <meta property="og:description" content="Converta moedas como BRL, USD e EUR com taxas de câmbio em tempo real.">
+    <meta property="og:image" content="https://easytoolsapp.com/static/media/logo.c64dfad4.png">
+    <meta property="og:url" content="https://ferramentas-uteis.pages.dev/conversor.html">
+    <link rel="icon" href="https://easytoolsapp.com/static/media/logo.c64dfad4.png" type="image/png">
+    <title>Conversor de Moedas | Utilitários by Rede Bots</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --secondary: #10B981;
+            --background: #F9FAFB;
+            --card-bg: #FFFFFF;
+            --text: #111827;
+            --text-secondary: #6B7280;
+            --border: #E5E7EB;
+            --shadow: rgba(0, 0, 0, 0.05);
+            --navbar-bg: rgba(255, 255, 255, 0.95);
+            --modal-bg: rgba(0, 0, 0, 0.6);
+            --input-bg: #FFFFFF;
+        }
+
+        [data-theme="dark"] {
+            --primary: #6366F1;
+            --secondary: #34D399;
+            --background: #111827;
+            --card-bg: #1F2937;
+            --text: #F9FAFB;
+            --text-secondary: #9CA3AF;
+            --border: #374151;
+            --shadow: rgba(0, 0, 0, 0.2);
+            --navbar-bg: rgba(31, 41, 55, 0.95);
+            --modal-bg: rgba(0, 0, 0, 0.7);
+            --input-bg: #374151;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--navbar-bg);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 2px 4px var(--shadow);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .navbar-brand i {
+            color: var(--primary);
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .navbar-links a {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .navbar-links a:hover {
+            color: var(--primary);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+        }
+
+        .theme-toggle:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            max-width: 800px;
+            margin: 6rem auto 2rem;
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        .hero i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .feature-section {
+            max-width: 600px;
+            margin: 0 auto 4rem;
+            padding: 0 1rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px var(--shadow);
+            padding: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 0.875rem;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .btn:hover {
+            background: #4338CA;
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            color: #EF4444;
+            font-size: 0.75rem;
+            text-align: center;
+            margin-top: 0.75rem;
+            display: none;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--modal-bg);
+            overflow: auto;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            width: 90%;
+            max-width: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 1rem;
+            text-align: center;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: var(--text);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .result-container {
+            background: var(--input-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+        }
+
+        .copy-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+
+        .tooltip {
+            position: absolute;
+            top: -2rem;
+            right: 0.5rem;
+            background: var(--secondary);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tooltip.show {
+            opacity: 1;
+        }
+
+        .footer {
+            background: var(--card-bg);
+            padding: 2rem 1rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 1rem; }
+            .navbar-links { gap: 1rem; }
+            .hero h1 { font-size: 1.75rem; }
+            .hero p { font-size: 0.875rem; }
+        }
+
+        @media (max-width: 480px) {
+            .navbar-brand { font-size: 1rem; }
+            .navbar-links a { font-size: 0.75rem; }
+            .hero { margin: 5rem auto 2rem; }
+            .feature-card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            <i class="fas fa-tools"></i> Utilitários by Rede Bots
+        </a>
+        <div class="navbar-links">
+            <a href="index.html">Home</a>
+            <a href="pix.html">Gerador de PIX</a>
+            <a href="senha.html">Gerador de Senhas</a>
+            <a href="validador.html">Validador de CPF/CNPJ</a>
+            <a href="conversor.html">Conversor de Moedas</a>
+            <a href="juros.html">Juros Compostos</a>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <section class="hero" data-aos="fade-up">
+        <i class="fas fa-exchange-alt"></i>
+        <h1>Conversor de Moedas</h1>
+        <p>Converta moedas como BRL, USD e EUR com taxas de câmbio em tempo real.</p>
+    </section>
+
+    <section class="feature-section" data-aos="fade-up" data-aos-delay="100">
+        <div class="feature-card">
+            <div class="form-group">
+                <label for="valor">Valor</label>
+                <input type="number" id="valor" class="form-control" placeholder="Digite o valor" step="0.01">
+            </div>
+            <div class="form-group">
+                <label for="moeda-origem">Moeda de origem</label>
+                <select id="moeda-origem" class="form-control">
+                    <option value="BRL">BRL - Real Brasileiro</option>
+                    <option value="USD">USD - Dólar Americano</option>
+                    <option value="EUR">EUR - Euro</option>
+                    <option value="GBP">GBP - Libra Esterlina</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="moeda-destino">Moeda de destino</label>
+                <select id="moeda-destino" class="form-control">
+                    <option value="USD">USD - Dólar Americano</option>
+                    <option value="BRL">BRL - Real Brasileiro</option>
+                    <option value="EUR">EUR - Euro</option>
+                    <option value="GBP">GBP - Libra Esterlina</option>
+                </select>
+            </div>
+            <button id="converter-btn" class="btn">Converter</button>
+            <div id="error-message" class="error-message"></div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>Utilitários by Rede Bots © 2025 | <a href="https://ferramentas-uteis.pages.dev/">ferramentas-uteis.pages.dev</a></p>
+        <div class="social-links">
+            <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div id="conversorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Resultado da Conversão</h2>
+                <span class="close">×</span>
+            </div>
+            <div class="modal-body">
+                <div class="result-container">
+                    <div id="modalResultText"></div>
+                </div>
+                <button id="copy-btn" class="copy-btn">
+                    <i class="far fa-copy"></i> Copiar Resultado
+                </button>
+                <div id="tooltip" class="tooltip">Copiado!</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="utils/conversor.js"></script>
+    <script>
+        console.log("Script de conversor.html carregado");
+        AOS.init({ duration: 800, once: true, offset: 100 });
+        console.log("AOS inicializado");
+    </script>
+</body>
+</html>
